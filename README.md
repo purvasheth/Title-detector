@@ -17,8 +17,8 @@ This is done using a 2 step process.
 Input images can be stored in Images folder or at any other path. This path should be provided while executing run.sh as a commandline argument. For example,
 
 ```
-$chmod 777 run.sh
-$./run.sh Images
+$ chmod 777 run.sh
+$ ./run.sh Images
 ```
 The bounding boxes detected after the first step are stored in intermediate.json. Every entry in this file consists of image filename as key and bounding box for title as value.
 The final output is stored in output.json. Every entry in this file consists of image filename as key and title and bounding box as values.
