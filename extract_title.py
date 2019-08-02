@@ -19,12 +19,12 @@ for filename in filenames:
     df = pd.DataFrame(d)
     new_df = df
     flag = 0
-    btop = data[filename][1]
+    bbtop = data[filename][1]
     bbottom = data[filename][3]
     bbright = data[filename][2]
     bbleft = data[filename][0]
 
-    df = df.loc[(df['conf']!= '-1') & (df['top'] > btop) & (df['top'] <= bbottom) & (df['height']/2  <= bbottom - df['top']) & (df['left'] <=bbright)& ((df['left'] + df['width'] + 200) >=bbleft)]
+    df = df.loc[(df['conf']!= '-1') & ((df['top'] + df['height']) >= bbtop) & (df['top'] <= bbottom) & (df['height']/2  <= bbottom - df['top']) & (df['left'] <=bbright)&((df['left'] + df['width'] + 200) >=bbleft) & (df['width']!=1024)]
 
 
     if df.empty:
@@ -58,8 +58,6 @@ for filename in filenames:
     #print(flag)
     top = min(top_as_list)
     left = min(left_as_list)
-    x = top
-    y = left
     h = 0
     w = 0
     if flag is 1:
@@ -68,19 +66,28 @@ for filename in filenames:
         if (temp_w.size==0) or (temp_h.size==0):
             temp_w = new_df.loc[(new_df['block_num']==block_num)&(new_df['par_num']==par_num) & (new_df['line_num']==line_no) & (new_df['word_num']==0) & (new_df['left']== left) & (new_df['top']== top)]['width'].values
             temp_h = new_df.loc[(new_df['block_num']==block_num)&(new_df['par_num']==par_num) & (new_df['line_num']==line_no) & (new_df['word_num']==0) & (new_df['left']== left) & (new_df['top']== top)]['height'].values
-
-        w = temp_w[0]
-        h = temp_h[0]
+        try:
+            w = temp_w[0]
+            h = temp_h[0]
+        except:
+            for (height,width,t,l) in zip(height_as_list,width_as_list,top_as_list,left_as_list):
+                w = max(w,width+l)
+                h = max(height+t,h)
+            h = h - top
+            w = w - left
+            
     else:
         for (height,width,t,l) in zip(height_as_list,width_as_list,top_as_list,left_as_list):
             w = max(w,width+l)
             h = max(height+t,h)
         h = h - top
+        w = w - left
         #print(h,w)
         #print(left,to
-    #print(title)
+    print(title)
     x = left
     y = top
+
 
     cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
     cv2.imwrite('final_prediction/'+ filename,img)
