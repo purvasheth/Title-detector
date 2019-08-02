@@ -1,8 +1,6 @@
 # Title-Detector
 
-Detects the main title in images,especially for ppt slides. 
-
-This is done using a 2 step process. 
+It uses a 2 step process. 
 1) Object Detection to get a rough estimation for bounding box of title.
 2) Text extraction using tesseract ocr engine along with final bounding box.
 
