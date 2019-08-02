@@ -21,8 +21,11 @@ for filename in filenames:
     flag = 0
     btop = data[filename][1]
     bbottom = data[filename][3]
+    bbright = data[filename][2]
+    bbleft = data[filename][0]
 
-    df = df.loc[(df['conf']!= '-1') & (df['top'] > btop) & (df['top'] < bbottom) & (df['height']/2  <= bbottom - df['top'])]
+    df = df.loc[(df['conf']!= '-1') & (df['top'] > btop) & (df['top'] <= bbottom) & (df['height']/2  <= bbottom - df['top']) & (df['left'] <=bbright)& ((df['left'] + df['width'] + 200) >=bbleft)]
+
 
     if df.empty:
         continue
