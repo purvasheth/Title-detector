@@ -1,6 +1,6 @@
 # Title-Detector
 
-It uses a 2 step process. 
+It uses a two step process. 
 1) Object Detection to get a rough estimation for bounding box of title.
 2) Text extraction using tesseract ocr engine along with final bounding box.
 
